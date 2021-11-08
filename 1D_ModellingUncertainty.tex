@@ -1,0 +1,166 @@
+\documentclass[10pt]{article}
+
+\usepackage[a4paper,
+            bindingoffset=0.2in,
+            left=1in,
+            right=1in,
+            top=1in,
+            bottom=1in,
+            footskip=.25in]{geometry}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumitem}
+\usepackage{environ}
+\usepackage{tikz}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+
+\NewEnviron{suneq}{%
+\begin{equation*}\begin{split}
+  \BODY
+\end{split}\end{equation*}
+}
+
+\DeclareMathOperator{\Prob}{\text{P}}
+\DeclareMathOperator{\E}{\text{E}}
+\DeclareMathOperator{\Var}{\text{Var}}
+
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
+
+\newcommand*{\Perm}[2]{{}^{#1}\!P_{#2}}%
+\newcommand*{\Comb}[2]{{}^{#1}C_{#2}}%
+
+\begin{document}
+
+\title{Modelling Uncertainty 1D Project}
+\author{\b{SC06 Group 4}\\Guo Ziniu, Yeoh Siew Ning, Devon Cheng, Yong Zheng Yew}
+
+
+\maketitle
+
+\section*{Q0.}
+
+\begin{center}
+    \begin{tabular}{ c c }
+        Yong Zheng Yew & 1005155 \\ 
+        Yeoh Siew Ning & 1005471 \\  
+        Devon Cheng & 1005215 \\
+        Guo Ziniu & 1004890 \\
+        Yeo Kai Wen & 1005291
+    \end{tabular}
+\end{center}
+
+\begin{suneq}
+    p_0 &= \frac{\frac{1005155+1005471+1005215+1004890+1005291}{5}-10^6}{10^4} \\
+    &= 0.52044
+\end{suneq}
+
+\section*{Q1.}
+
+\subsection*{a)}
+\begin{suneq}
+    F(n,m,p) = \sum_{k=0}^{m-1}\Comb{n-1+k}{k}\cdot p^{n}\left(1-p\right)^{k}
+\end{suneq}
+
+\subsection*{b)}
+\begin{suneq}
+    F(8,10,p_0) = 0.743459444891
+\end{suneq}
+
+\section*{Q2.}
+\subsection*{a)}
+\subsubsection*{}
+Claim 1:
+
+\subsubsection*{}
+Claim 2:
+
+\subsection*{b)}
+\begin{suneq}
+    F(n,m,p) = \sum_{k=n}^{n+m-1}\Comb{n+m-1}{k}\cdot p^{k}\left(1-p\right)^{\left(n+m-1-k\right)}
+\end{suneq}
+
+
+\section*{Q3.}
+\subsection*{a)}
+\begin{suneq}
+    F(n,m,p) &= p\cdot F(n-1,m,p) + (1-p)\cdot F(n,m-1,p)\\
+    \text{Base cases:}\\
+    F(0,m,p) &= 1 \\
+    F(n,0,p) &= 0
+\end{suneq}
+
+\subsection*{b)}
+Refer to Excel.
+
+\section*{Q4.}
+Let $X_{player}$ be a random variable representing the probability that the game ends after (inclusive) $x$ turns, with a win for that player.\\
+
+\begin{suneq}
+    P(X_A = x) &= \Comb{x-1}{x-4}\cdot p^{4}\left(1-p\right)^{\left(x-4\right)}\\
+    P(X_B = x) &= \Comb{x-1}{x-4}\cdot p^{\left(x-4\right)}\left(1-p\right)^{4}\\
+    X &= X_A + X_B\\
+    P(X = x) &= P(X_A = x) + P(X_B = x)\\
+    &= \Comb{x-1}{x-4}\cdot\left(p^{4}\left(1-p\right)^{\left(x-4\right)}+p^{\left(x-4\right)}\left(1-p\right)^{4}\right)
+\end{suneq}
+
+\begin{center}
+    \begin{tabular}{ c || c | c | c | c }
+        $x$ & 4 & 5 & 6 & 7\\
+        \hline
+        $P(X=x)$ & 0.126253729903 & 0.250833492582 & 0.311976886701 & 0.310935890814
+    \end{tabular}
+\end{center}
+
+\section*{Q5.}
+\begin{suneq}
+    X&\sim\text{Binomial}(2n-1,p)\\
+    \therefore E(X) &= (2n-1)p,\\
+    \Var(X) &= (2n-1)p(1-p),\\
+    \sigma(X) &= \sqrt{\Var(X)} = \sqrt{(2n-1)p(1-p)}\\
+    \text{Distance }D\text{ between }n\text{ and }E(X) &=\frac{n-E(X)}{\sigma(X)}\\
+    &=\abs{\frac{n-(2n-1)p}{\sqrt{(2n-1)p(1-p)}}}\\
+    &=\abs{\frac{n(1-2p)+p}{\sqrt{(2n-1)p(1-p)}}}\\
+    &= \abs{\frac{n(1-2p)}{\sqrt{(2n-1)p(1-p)}} + \frac{p}{\sqrt{(2n-1)p(1-p)}}}\\
+    \text{As }n\text{ tends to infinity,} & \frac{p}{\sqrt{(2n-1)p(1-p)}}\to 0\\
+    D&=\abs{\frac{n(1-2p)}{\sqrt{(2n-1)p(1-p)}}}\\
+    &= \abs{\frac{n(2p-1)}{\sqrt{(2n-1)p(1-p)}}}\\
+    &= \abs{n\cdot\frac{(2p-1)}{\sqrt{(2n-1)p(1-p)}}}
+\end{suneq}
+
+Since $\frac{(2p-1)}{\sqrt{(2n-1)p(1-p)}}$ is always positive for $0.5<p<1$, we see that, as $n$ increases, $D$ increases.
+
+\subsection*{b)}
+From a picture, we can see that $E(X)$ is to the right of $n$. Since the distance $D$ between the two is increasing, $E(X)$ is getting further away from $n$. In plain English, this means that the amount of rounds player A is expected to win is increasing faster than the minimum amount of rounds player A has to win n order to win the game. Therefore, as $n$ increases, the probability that player A will win the game increases.
+
+\section*{Q6.}
+\begin{center}
+    Game State Space Diagram:\\
+    \includegraphics[width=10cm]{GameSpaceDiagram.jpg}\\
+\end{center}
+Probability of player A winning 4 points and player B winning $k\le2$ points (so player A wins immediately):
+\begin{suneq}
+    \sum_{k=0}^{2}\Comb{3+k}{3}\cdot p^{4}\left(1-p\right)^{k}
+\end{suneq}
+Probability of both players A and B winning 3 points each:
+\begin{suneq}
+    \Comb{3+3}{3}\cdot p_0^3(1-p_0)^3
+\end{suneq}
+If both players are at 3 points each, what matters from then on is only the margin between the two. For each round, the probabilities of:
+\begin{itemize}
+    \item A wins: $p_0^2$\\
+    \item B wins: $(1-p_0)^2$\\
+    \item Inconclusive: $\Comb{2}{1}\cdot p_0^1(1-p_0)^1 = 2p_0(1-p_0)$
+\end{itemize}
+Therefore, the probability of player A winning the game under these circumstances is:
+\begin{suneq}
+    p_0^2 + 2p_0(1-p_0)p_0^2 + [2p_0(1-p_0)]^2p_0^2 + [2p_0(1-p_0)]^3p_0^2\cdots &= p_0^2 \sum_{i=0}^{\infty}(2p_0(1-p_0))^i\\
+    &= \frac{p_0^2}{1-2p_0+2p_0^2}
+\end{suneq}
+Therefore, the total probability that player A wins the game is:
+\begin{suneq}
+    \sum_{k=0}^{2}\Comb{3+k}{3}\cdot p^{4}\left(1-p\right)^{k} + \Comb{3+3}{3}\cdot p_0^3(1-p_0)^3\cdot \frac{p_0^2}{1-2p_0+2p_0^2}
+\end{suneq}
+\end{document}
