@@ -85,9 +85,26 @@ Claim 2:
 
 \section*{Q3.}
 \subsection*{a)}
+Let $G$ represent the event of player $A$ eventually winning the entire game, where the game in question has so far only progressed until a particular round such that $A$ and $B$ need $n$ resp. $m$ more rounds to win (or more concisely, such that $P(G)=F(n,m,p)$). Let $R$ represent the event of a player winning that particular round. According to the rules of the game, at each round, either A or B must win. Therefore, $R$ partitions the sample space between two disjoint events:
 \begin{suneq}
-    F(n,m,p) &= p\cdot F(n-1,m,p) + (1-p)\cdot F(n,m-1,p)\\
-    \text{Base cases:}\\
+    R = \{R_A, R_B\}
+\end{suneq}
+Where $R_A$ and $R_B$ represent the events of player $A$ resp. $B$ winning that round. This is because there is no way for a round to be won by both players at once (disjoint), nor can any round have any outcome other than either $A$ or $B$ winning it (partitioning).\\\\According to the law of total probability:
+\begin{suneq}
+    P(G) &= \sum_n P(G\cap R_n)
+\end{suneq}
+By Bayes' Law,
+\begin{suneq}
+    P(G) &= \sum_n P(G|R_n)P(R_n)\\
+    &= P(G|R_A)P(R_A) + P(G|R_B)P(R_B)
+\end{suneq}
+We know that $P(R_A)=p$ and $P(R_B)=(1-p)$ by definition. Also, $P(G|R_A)$ and $P(G|R_B)$ respectively are the events that player $A$ eventually wins the whole game, given that player $A$ resp. $B$ wins that particular round. As shown in Question 1b), we can determine $P(G|R_A) = F(n-1,m,p)$ and $P(G|R_B) = F(n,m-1,p)$. This is because the probability of player $A$ winning a particular game can be calculated entirely from the current gamestate, and does not depend on history of past gamestates. Therefore, continuing from above, we find that:
+\begin{suneq}
+    P(G) &= F(n,m,p)\\
+    &= p\cdot F(n-1,m,p) + (1-p)\cdot F(n,m-1,p)\\
+\end{suneq}
+Finally, we note that when $A$ has no more points left to win while $B$ still does, then $A$ has just won by definition; so $P(G)=F(0,m,p)=1$. Similarly, when $B$ has no more points left to win while $A$ still does, $B$ has won, meaning $A$ has lost; thus $P(G)=F(n,0,p)=0$. Thus, we have established our base cases for a recursive solution to $F(n,m,p)$:
+\begin{suneq}
     F(0,m,p) &= 1 \\
     F(n,0,p) &= 0
 \end{suneq}
@@ -96,13 +113,16 @@ Claim 2:
 Refer to Excel.
 
 \section*{Q4.}
-Let $X_{player}$ be a random variable representing the probability that the game ends after (inclusive) $x$ turns, with a win for that player.\\
-
+Let $X_{player}$ be a random variable representing the number of turns that the game ends at (inclusive), with a win for that player.
 \begin{suneq}
     P(X_A = x) &= \Comb{x-1}{x-4}\cdot p^{4}\left(1-p\right)^{\left(x-4\right)}\\
     P(X_B = x) &= \Comb{x-1}{x-4}\cdot p^{\left(x-4\right)}\left(1-p\right)^{4}\\
-    X &= X_A + X_B\\
-    P(X = x) &= P(X_A = x) + P(X_B = x)\\
+    X &= X_A + X_B
+\end{suneq}
+Let $X$ be a random variable representing the number of turns that the game ends at (inclusive), with a win for player A OR B. Since $X_A$ and $X_B$ are disjoint (Players A and B cannot both win at the same time),\\
+\begin{suneq}
+    P(X = x) &= P((X_A = x) \cup (X_B = x))\\
+    &= P(X_A = x) + P(X_B = x)\\
     &= \Comb{x-1}{x-4}\cdot\left(p^{4}\left(1-p\right)^{\left(x-4\right)}+p^{\left(x-4\right)}\left(1-p\right)^{4}\right)
 \end{suneq}
 
@@ -113,20 +133,21 @@ Let $X_{player}$ be a random variable representing the probability that the game
         $P(X=x)$ & 0.126253729903 & 0.250833492582 & 0.311976886701 & 0.310935890814
     \end{tabular}
 \end{center}
+From the above, we can calculate that
+\begin{suneq}
+    E(X) &= 4\left(0.126253729903\right)\ +\ 5\left(0.250833492582\right)\ +\ 6\left(0.311976886701\right)\ +\ 7\left(0.310935890814\right)\\
+    &= 5.81\text{ (to 3 s.f.)}
+\end{suneq}
 
 \section*{Q5.}
 \begin{suneq}
     X&\sim\text{Binomial}(2n-1,p)\\
-    \therefore E(X) &= (2n-1)p,\\
-    \Var(X) &= (2n-1)p(1-p),\\
-    \sigma(X) &= \sqrt{\Var(X)} = \sqrt{(2n-1)p(1-p)}\\
-    \text{Distance }D\text{ between }n\text{ and }E(X) &=\frac{n-E(X)}{\sigma(X)}\\
-    &=\abs{\frac{n-(2n-1)p}{\sqrt{(2n-1)p(1-p)}}}\\
+    \therefore E(X) = (2n-1)p,\quad\Var(X) &= (2n-1)p(1-p),\quad\sigma(X) = \sqrt{\Var(X)} = \sqrt{(2n-1)p(1-p)}\\
+    \text{Distance }D\text{ between }n\text{ and }E(X) &=\frac{n-E(X)}{\sigma(X)} = \abs{\frac{n-(2n-1)p}{\sqrt{(2n-1)p(1-p)}}}\\
     &=\abs{\frac{n(1-2p)+p}{\sqrt{(2n-1)p(1-p)}}}\\
     &= \abs{\frac{n(1-2p)}{\sqrt{(2n-1)p(1-p)}} + \frac{p}{\sqrt{(2n-1)p(1-p)}}}\\
     \text{As }n\text{ tends to infinity,} & \frac{p}{\sqrt{(2n-1)p(1-p)}}\to 0\\
-    D&=\abs{\frac{n(1-2p)}{\sqrt{(2n-1)p(1-p)}}}\\
-    &= \abs{\frac{n(2p-1)}{\sqrt{(2n-1)p(1-p)}}}\\
+    \therefore D&\to\abs{\frac{n(1-2p)}{\sqrt{(2n-1)p(1-p)}}} = \abs{\frac{n(2p-1)}{\sqrt{(2n-1)p(1-p)}}}\\
     &= \abs{n\cdot\frac{(2p-1)}{\sqrt{(2n-1)p(1-p)}}}
 \end{suneq}
 
@@ -150,8 +171,8 @@ Probability of both players A and B winning 3 points each:
 \end{suneq}
 If both players are at 3 points each, what matters from then on is only the margin between the two. For each round, the probabilities of:
 \begin{itemize}
-    \item A wins: $p_0^2$\\
-    \item B wins: $(1-p_0)^2$\\
+    \item A wins: $p_0^2$
+    \item B wins: $(1-p_0)^2$
     \item Inconclusive: $\Comb{2}{1}\cdot p_0^1(1-p_0)^1 = 2p_0(1-p_0)$
 \end{itemize}
 Therefore, the probability of player A winning the game under these circumstances is:

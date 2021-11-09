@@ -1,6 +1,6 @@
-PWD c:\Users\Lion Yong\Documents\LATEX
+PWD c:\Users\Lion Yong\Documents\LATEX\1D_MU
 INPUT C:\Users\Lion Yong\AppData\Local\MiKTeX\miktex\data\le\pdftex\pdflatex.fmt
-INPUT c:\Users\Lion Yong\Documents\LATEX\1D_ModellingUncertainty.tex
+INPUT c:\Users\Lion Yong\Documents\LATEX\1D_MU\1D_ModellingUncertainty.tex
 OUTPUT 1D_ModellingUncertainty.log
 INPUT C:\Users\Lion Yong\AppData\Local\Programs\MiKTeX\tex\latex\base\article.cls
 INPUT C:\Users\Lion Yong\AppData\Local\Programs\MiKTeX\tex\latex\base\article.cls
