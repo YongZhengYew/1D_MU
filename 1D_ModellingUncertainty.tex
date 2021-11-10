@@ -39,9 +39,7 @@
 
 
 \maketitle
-
 \section*{Q0.}
-
 \begin{center}
     \begin{tabular}{ c c }
         Yong Zheng Yew & 1005155 \\ 
@@ -51,38 +49,39 @@
         Yeo Kai Wen & 1005291
     \end{tabular}
 \end{center}
-
 \begin{suneq}
     p_0 &= \frac{\frac{1005155+1005471+1005215+1004890+1005291}{5}-10^6}{10^4} \\
     &= 0.52044
 \end{suneq}
-
 \section*{Q1.}
-
 \subsection*{a)}
 \begin{suneq}
     F(n,m,p) = \sum_{k=0}^{m-1}\Comb{n-1+k}{k}\cdot p^{n}\left(1-p\right)^{k}
 \end{suneq}
-
 \subsection*{b)}
 \begin{suneq}
     F(8,10,p_0) = 0.743459444891
 \end{suneq}
-
 \section*{Q2.}
 \subsection*{a)}
 \subsubsection*{}
-Claim 1:
+Claim 1: Let points scored by $A$ and $B$ be $S_A$ and $S_B$ respectively.
 
+The extended game's bounding condition is $S_A+S_B=n+m-1$. The win condition for $A$ in the extended game is $S_A\ge n$, which implies $S_B\le m-1<m$; similarly for $B$, it is $S_B\ge m\implies S_A\le n-1<n$. The order of scoring points does not matter.
+
+By contrast, in the original game, the win condition does sometimes depend on the order of who wins their target number of points first. However, when we limit $S_A+S_B=n+m-1$, as long as in the end, $S_A\ge n$, we know that $S_B\le m-1<m$, and so $A$ must have reached $n$ at some point, while $B$ never could have, and thus regardless of order, $A$ must have won under the original game's rules as well (and vice versa for $B$). \textbf{Thus, if the extended game is won, the original game must be won.}
+
+In a way, if the two players had been playing under the original game's rules, it would be as if, although $A$ might have possibly won halfway, they still kept playing rounds until $S_A+S_B=n+m-1$, even though under such circumstances, $B$ had no hope of winning and it would not affect the outcome, and the maximum points $B$ could score would still be less than $m$. \textbf{From this, we can see that if the original game is won, the extended game must be won.}
+
+Therefore, the original game is won if and only if the extended game is won, and vice versa; i.e. they are equivalent.
 \subsubsection*{}
 Claim 2:
 
+By definition, $F(n,m,p)$ is the probability that $A$ wins the original game. Also, in proving Claim 1, we have shown the two games to be equivalent. Therefore, $F(n,m,p)$ is also the probability that $A$ wins the extended game.
 \subsection*{b)}
 \begin{suneq}
     F(n,m,p) = \sum_{k=n}^{n+m-1}\Comb{n+m-1}{k}\cdot p^{k}\left(1-p\right)^{\left(n+m-1-k\right)}
 \end{suneq}
-
-
 \section*{Q3.}
 \subsection*{a)}
 Let $G$ represent the event of player $A$ eventually winning the entire game, where the game in question has so far only progressed until a particular round such that $A$ and $B$ need $n$ resp. $m$ more rounds to win (or more concisely, such that $P(G)=F(n,m,p)$). Let $R$ represent the event of a player winning that particular round. According to the rules of the game, at each round, either A or B must win. Therefore, $R$ partitions the sample space between two disjoint events:
